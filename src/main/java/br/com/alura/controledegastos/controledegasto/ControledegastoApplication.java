@@ -9,5 +9,4 @@ public class ControledegastoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ControledegastoApplication.class, args);
 	}
-
 }
