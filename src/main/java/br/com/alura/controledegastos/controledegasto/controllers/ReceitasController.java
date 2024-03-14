@@ -2,6 +2,7 @@ package br.com.alura.controledegastos.controledegasto.controllers;
 
 import java.net.URI;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.alura.controledegastos.controledegasto.dtos.ReceitasDTO;
 import br.com.alura.controledegastos.controledegasto.services.ReceitasService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/receitas")
@@ -32,13 +33,13 @@ public class ReceitasController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ReceitasDTO> getById(@RequestParam Long id) {
+    public ResponseEntity<ReceitasDTO> getById(@PathVariable Long id) {
         var receita = service.getById(id);
         return ResponseEntity.ok().body(receita);
     }
 
     @PostMapping
-    public ResponseEntity<ReceitasDTO> post(@RequestBody ReceitasDTO dto) {
+    public ResponseEntity<ReceitasDTO> post(@Valid @RequestBody ReceitasDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.id()).toUri();
@@ -46,13 +47,13 @@ public class ReceitasController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ReceitasDTO> put(@PathVariable Long id, @RequestBody ReceitasDTO dto) {
+    public ResponseEntity<ReceitasDTO> put(@PathVariable Long id, @Valid @RequestBody ReceitasDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

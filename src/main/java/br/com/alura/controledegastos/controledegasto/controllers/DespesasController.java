@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.alura.controledegastos.controledegasto.dtos.DespesasDTO;
 import br.com.alura.controledegastos.controledegasto.services.DespesasService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/despesas")
@@ -38,14 +39,14 @@ public class DespesasController {
     }
 
     @PostMapping
-    public ResponseEntity<DespesasDTO> post(@RequestBody DespesasDTO dto) {
+    public ResponseEntity<DespesasDTO> post(@Valid @RequestBody DespesasDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
     
-    @PutMapping
-    public ResponseEntity<DespesasDTO> put(@PathVariable Long id, @RequestBody DespesasDTO dto) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<DespesasDTO> put(@PathVariable Long id, @Valid @RequestBody DespesasDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
