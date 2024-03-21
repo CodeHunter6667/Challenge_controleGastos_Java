@@ -1,0 +1,10 @@
+version: "25.0.3"
+
+services:
+  database:
+    image: postgres:latest
+    container_name: banco-de-dados
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
