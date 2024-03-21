@@ -2,11 +2,7 @@ package br.com.alura.controledegastos.controledegasto.models;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_despesas")
@@ -19,14 +15,19 @@ public class Despesas {
     private Double valor;
     private LocalDate data;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_Id", nullable = false)
+    private Categorias categoria;
+
     public Despesas() {
     }
 
-    public Despesas(Long id, String descricao, Double valor, LocalDate data) {
+    public Despesas(Long id, String descricao, Double valor, LocalDate data, Categorias categoria) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
         this.data = data;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -59,6 +60,10 @@ public class Despesas {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public Categorias getCategoria() {
+        return categoria;
     }
 
     @Override
