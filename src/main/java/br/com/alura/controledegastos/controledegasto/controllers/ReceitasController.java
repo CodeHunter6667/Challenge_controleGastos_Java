@@ -38,6 +38,12 @@ public class ReceitasController {
         return ResponseEntity.ok().body(receita);
     }
 
+    @GetMapping(value = "/{ano}/{mes}")
+    public ResponseEntity<List<ReceitasDTO>> getByDate(@PathVariable Double mes,@PathVariable Double ano){
+        List<ReceitasDTO> dto = service.searchByDate(mes, ano);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<ReceitasDTO> post(@Valid @RequestBody ReceitasDTO dto) {
         dto = service.insert(dto);
