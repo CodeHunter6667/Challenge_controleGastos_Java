@@ -1,6 +1,7 @@
 package br.com.alura.controledegastos.controledegasto.dtos;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import br.com.alura.controledegastos.controledegasto.models.Despesas;
 import jakarta.validation.constraints.NotBlank;
@@ -17,8 +18,9 @@ public record DespesasDTO(
         @NotNull(message = "Valor é obrigatório")
         Double valor,
         @NotNull(message = "Data é obrigatória")
-        LocalDate data) {
+        LocalDate data,
+        Long categoriaId) {
     public DespesasDTO(Despesas entity) {
-        this(entity.getId(), entity.getDescricao(), entity.getValor(), entity.getData());
+        this(entity.getId(), entity.getDescricao(), entity.getValor(), entity.getData(), entity.getCategoria().getId());
     }   
 }
