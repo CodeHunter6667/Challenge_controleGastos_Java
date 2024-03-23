@@ -41,7 +41,8 @@ public class DespesasController {
     @PostMapping
     public ResponseEntity<DespesasDTO> post(@Valid @RequestBody DespesasDTO dto) {
         dto = service.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.id()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
     
