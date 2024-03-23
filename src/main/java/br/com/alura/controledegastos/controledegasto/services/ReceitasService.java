@@ -32,6 +32,12 @@ public class ReceitasService {
         return new ReceitasDTO(receita);
     }
 
+    @Transactional(readOnly = true)
+    public List<ReceitasDTO> searchByDate(Double mes, Double ano){
+        List<Receitas> receitas = repository.searchByDate(mes, ano);
+        return receitas.stream().map(ReceitasDTO::new).toList();
+    }
+
     @Transactional
     public ReceitasDTO insert(ReceitasDTO dto) {
         var receita = new Receitas();
