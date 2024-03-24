@@ -66,6 +66,10 @@ public class Despesas {
         return categoria;
     }
 
+    public void setCategorias(Categorias categorias){
+        this.categoria = categorias;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
