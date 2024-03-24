@@ -38,6 +38,12 @@ public class DespesasController {
         return ResponseEntity.ok().body(despesa);
     }
 
+    @GetMapping(value = "/{ano}/{mes}")
+    public ResponseEntity<List<DespesasDTO>> getByDate(Double mes, Double ano){
+        List<DespesasDTO> dto = service.searchByDate(mes, ano);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<DespesasDTO> post(@Valid @RequestBody DespesasDTO dto) {
         dto = service.insert(dto);
