@@ -22,5 +22,5 @@ public record DespesasDTO(
         Long categoriaId) {
     public DespesasDTO(Despesas entity) {
         this(entity.getId(), entity.getDescricao(), entity.getValor(), entity.getData(), entity.getCategoria().getId());
-    }   
+    }
 }
