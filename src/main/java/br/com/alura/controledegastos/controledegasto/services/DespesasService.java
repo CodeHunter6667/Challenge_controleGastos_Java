@@ -2,6 +2,7 @@ package br.com.alura.controledegastos.controledegasto.services;
 
 import java.util.List;
 
+import br.com.alura.controledegastos.controledegasto.models.Categorias;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,11 +32,22 @@ public class DespesasService {
                 () -> new DespesaNotFoundException("Despesa não encontrada"));
         return new DespesasDTO(despesa);
     }
+
+    public List<DespesasDTO> searchByDate(Double mes, Double ano){
+        List<Despesas> despesas = repository.searchByDate(mes, ano);
+        return despesas.stream().map(DespesasDTO::new).toList();
+    }
     
     @Transactional
     public DespesasDTO insert(DespesasDTO dto) {
         var despesa = new Despesas();
         CopyDtoToEntity(dto, despesa);
+        Categorias cat = new Categorias();
+        cat.setId(dto.categoriaId());
+        if (cat.getId() == null){
+            cat.setId(8L);
+        }
+        despesa.setCategorias(cat);
         repository.save(despesa);
         return new DespesasDTO(despesa);
     }
@@ -45,6 +57,12 @@ public class DespesasService {
         try {
             var despesa = repository.getReferenceById(id);
             CopyDtoToEntity(dto, despesa);
+            Categorias cat = new Categorias();
+            cat.setId(dto.categoriaId());
+            if (cat.getId() == null){
+                cat.setId(8L);
+            }
+            despesa.setCategorias(cat);
             repository.save(despesa);
             return new DespesasDTO(despesa);
         } catch (EntityNotFoundException e) {
