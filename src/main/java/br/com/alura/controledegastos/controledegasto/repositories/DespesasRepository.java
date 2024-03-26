@@ -13,4 +13,7 @@ public interface DespesasRepository extends JpaRepository<Despesas, Long>{
     @Query("SELECT obj FROM Despesas obj WHERE EXTRACT(MONTH FROM obj.data) = :mes " +
             "AND EXTRACT(YEAR FROM obj.data) = :ano")
     List<Despesas> searchByDate(Double mes, Double ano);
+
+    @Query("SELECT obj FROM Despesas obj WHERE UPPER(obj.nome) LIKE UPPER(:nome)")
+    List<Despesas> searchByName(String nome);
 }
