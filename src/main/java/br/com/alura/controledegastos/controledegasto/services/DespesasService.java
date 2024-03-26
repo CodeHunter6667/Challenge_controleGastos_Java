@@ -1,18 +1,17 @@
 package br.com.alura.controledegastos.controledegasto.services;
 
-import java.util.List;
-
+import br.com.alura.controledegastos.controledegasto.dtos.DespesasDTO;
 import br.com.alura.controledegastos.controledegasto.models.Categorias;
+import br.com.alura.controledegastos.controledegasto.models.Despesas;
+import br.com.alura.controledegastos.controledegasto.repositories.DespesasRepository;
+import br.com.alura.controledegastos.controledegasto.services.exceptions.DespesaNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.alura.controledegastos.controledegasto.dtos.DespesasDTO;
-import br.com.alura.controledegastos.controledegasto.models.Despesas;
-import br.com.alura.controledegastos.controledegasto.repositories.DespesasRepository;
-import br.com.alura.controledegastos.controledegasto.services.exceptions.DespesaNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 public class DespesasService {
@@ -33,8 +32,15 @@ public class DespesasService {
         return new DespesasDTO(despesa);
     }
 
+    @Transactional(readOnly = true)
     public List<DespesasDTO> searchByDate(Double mes, Double ano){
         List<Despesas> despesas = repository.searchByDate(mes, ano);
+        return despesas.stream().map(DespesasDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<DespesasDTO> getByName(String nome){
+        List<Despesas> despesas = repository.searchByName(nome);
         return despesas.stream().map(DespesasDTO::new).toList();
     }
     
