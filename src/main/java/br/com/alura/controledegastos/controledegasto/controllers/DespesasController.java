@@ -1,23 +1,15 @@
 package br.com.alura.controledegastos.controledegasto.controllers;
 
-import java.net.URI;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import br.com.alura.controledegastos.controledegasto.dtos.DespesasDTO;
 import br.com.alura.controledegastos.controledegasto.services.DespesasService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/despesas")
@@ -41,6 +33,12 @@ public class DespesasController {
     @GetMapping(value = "/{ano}/{mes}")
     public ResponseEntity<List<DespesasDTO>> getByDate(Double mes, Double ano){
         List<DespesasDTO> dto = service.searchByDate(mes, ano);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DespesasDTO>> getByName(@RequestParam(name="nome", defaultValue = "") String nome){
+        List<DespesasDTO> dto = service.getByName(nome);
         return ResponseEntity.ok().body(dto);
     }
 
