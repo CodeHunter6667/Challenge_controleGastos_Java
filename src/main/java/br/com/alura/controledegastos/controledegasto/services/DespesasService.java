@@ -20,9 +20,9 @@ public class DespesasService {
     private DespesasRepository repository;
 
     @Transactional(readOnly = true)
-    public List<DespesasDTO> getAll() {
-        List<Despesas> despesas = repository.findAll();
-        return despesas.stream().map(x -> new DespesasDTO(x)).toList();
+    public List<DespesasDTO> getAll(String descricao) {
+        List<Despesas> despesas = repository.searchByName(descricao);
+        return despesas.stream().map(DespesasDTO::new).toList();
     }
     
     @Transactional(readOnly = true)
@@ -39,8 +39,8 @@ public class DespesasService {
     }
 
     @Transactional(readOnly = true)
-    public List<DespesasDTO> getByName(String nome){
-        List<Despesas> despesas = repository.searchByName(nome);
+    public List<DespesasDTO> getByName(String descricao){
+        List<Despesas> despesas = repository.searchByName(descricao);
         return despesas.stream().map(DespesasDTO::new).toList();
     }
     
