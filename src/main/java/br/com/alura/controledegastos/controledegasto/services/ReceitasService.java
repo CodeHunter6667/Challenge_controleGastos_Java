@@ -19,9 +19,9 @@ public class ReceitasService {
     private ReceitasRepository repository;
 
     @Transactional(readOnly = true)
-    public List<ReceitasDTO> getAll() {
-        List<Receitas> receitas = repository.findAll();
-        return receitas.stream().map(x -> new ReceitasDTO(x)).toList();
+    public List<ReceitasDTO> getAll(String descricao) {
+        List<Receitas> receitas = repository.searchByName(descricao);
+        return receitas.stream().map(ReceitasDTO::new).toList();
     }
 
     @Transactional(readOnly = true)
@@ -38,8 +38,8 @@ public class ReceitasService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceitasDTO> getByName(String nome){
-        List<Receitas> receitas = repository.searchByName(nome);
+    public List<ReceitasDTO> getByName(String descricao){
+        List<Receitas> receitas = repository.searchByName(descricao);
         return receitas.stream().map(ReceitasDTO::new).toList();
     }
 
