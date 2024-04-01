@@ -14,6 +14,6 @@ public interface ReceitasRepository extends JpaRepository<Receitas, Long>{
             "AND EXTRACT(YEAR FROM obj.data) = :ano")
     List<Receitas> searchByDate(Double mes, Double ano);
 
-    @Query("SELECT obj FROM Receitas obj WHERE UPPER(obj.nome) LIKE UPPER(:nome)")
-    List<Receitas> searchByName(String nome);
+    @Query("SELECT obj FROM Receitas obj WHERE UPPER(obj.descricao) LIKE UPPER(CONCAT('%', :descricao, '%'))")
+    List<Receitas> searchByName(String descricao);
 }
