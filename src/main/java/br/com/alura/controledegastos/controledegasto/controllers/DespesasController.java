@@ -19,8 +19,8 @@ public class DespesasController {
     private DespesasService service;
 
     @GetMapping
-    public ResponseEntity<List<DespesasDTO>> getAll() {
-        var despesas = service.getAll();
+    public ResponseEntity<List<DespesasDTO>> getAll(@RequestParam(name = "descricao", defaultValue = "") String descricao) {
+        var despesas = service.getAll(descricao);
         return ResponseEntity.ok().body(despesas);
     }
 
@@ -33,12 +33,6 @@ public class DespesasController {
     @GetMapping(value = "/{ano}/{mes}")
     public ResponseEntity<List<DespesasDTO>> getByDate(Double mes, Double ano){
         List<DespesasDTO> dto = service.searchByDate(mes, ano);
-        return ResponseEntity.ok().body(dto);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<DespesasDTO>> getByName(@RequestParam(name="nome", defaultValue = "") String nome){
-        List<DespesasDTO> dto = service.getByName(nome);
         return ResponseEntity.ok().body(dto);
     }
 
