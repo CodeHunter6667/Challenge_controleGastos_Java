@@ -19,8 +19,8 @@ public class ReceitasController {
     private ReceitasService service;
 
     @GetMapping
-    public ResponseEntity<List<ReceitasDTO>> getAll() {
-        var receitas = service.getAll();
+    public ResponseEntity<List<ReceitasDTO>> getAll(@RequestParam(name = "descricao", defaultValue = "") String descricao) {
+        var receitas = service.getAll(descricao);
         return ResponseEntity.ok().body(receitas);
     }
 
@@ -33,12 +33,6 @@ public class ReceitasController {
     @GetMapping(value = "/{ano}/{mes}")
     public ResponseEntity<List<ReceitasDTO>> getByDate(@PathVariable Double mes,@PathVariable Double ano){
         List<ReceitasDTO> dto = service.searchByDate(mes, ano);
-        return ResponseEntity.ok().body(dto);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<ReceitasDTO>> getByName(@RequestParam(name = "nome", defaultValue = "") String nome){
-        List<ReceitasDTO> dto = service.getByName(nome);
         return ResponseEntity.ok().body(dto);
     }
 
