@@ -1,7 +1,6 @@
 package br.com.alura.controledegastos.controledegasto.dtos;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import br.com.alura.controledegastos.controledegasto.models.Despesas;
 import jakarta.validation.constraints.NotBlank;
