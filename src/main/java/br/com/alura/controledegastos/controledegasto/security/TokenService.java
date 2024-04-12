@@ -1,6 +1,8 @@
 package br.com.alura.controledegastos.controledegasto.security;
 
+import br.com.alura.controledegastos.controledegasto.dtos.UsuarioDTO;
 import br.com.alura.controledegastos.controledegasto.models.Usuario;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -21,7 +23,7 @@ public class TokenService {
         try{
             Algorithm algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("API Controle de gastos")
+                    .withIssuer("API_Controle_de_gastos")
                     .withSubject(usuario.getLogin())
                     .withExpiresAt(dataEspiracao())
                     .sign(algoritmo);
@@ -34,12 +36,12 @@ public class TokenService {
         try{
             Algorithm algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
-                    .withIssuer("API Controle de gastos")
+                    .withIssuer("API_Controle_de_gastos")
                     .build()
                     .verify(tokenJwt)
                     .getSubject();
         } catch (JWTVerificationException e){
-            throw new RuntimeException("Token inválido ou expirado");
+            return null;
         }
     }
 
